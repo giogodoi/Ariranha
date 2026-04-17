@@ -1,9 +1,11 @@
 package br.com.zetta.ariranha.service;
+
 import br.com.zetta.ariranha.dto.RegistroIncendioDTO;
 import br.com.zetta.ariranha.model.RegistroIncendio;
 import br.com.zetta.ariranha.repository.RegistroIncendioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,10 +15,26 @@ public class RegistroIncendioService {
     @Autowired
     private RegistroIncendioRepository repository;
 
+    @Autowired
+    private InpeService inpeService;
+
+    public List<RegistroIncendioDTO> listarHistoricoInpe(String estado, int ano, int mes) {
+        return inpeService.buscarFocosHistorico(estado, ano, mes);
+    }
+
     public List<RegistroIncendioDTO> listarTodos() {
-        return repository.findAll().stream()
+        // Mantemos a lógica atual: Banco local + 48h do INPE
+        List<RegistroIncendioDTO> todosRegistros = repository.findAll().stream()
                 .map(this::converterParaDTO)
-                .collect(Collectors.toList());
+                .collect(Collectors.toCollection(ArrayList::new));
+        try {
+            List<RegistroIncendioDTO> dadosInpe = inpeService.buscarFocosInpe();
+            todosRegistros.addAll(dadosInpe);
+        } catch (Exception e) {
+            System.err.println("Erro ao buscar dados do INPE: " + e.getMessage());
+        }
+
+        return todosRegistros;
     }
 
     public RegistroIncendioDTO salvar(RegistroIncendio registro) {

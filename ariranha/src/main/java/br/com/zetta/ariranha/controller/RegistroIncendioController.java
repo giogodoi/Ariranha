@@ -19,6 +19,14 @@ public class RegistroIncendioController {
         return service.listarTodos();
     }
 
+    @GetMapping("/historico")
+    public List<RegistroIncendioDTO> buscarHistorico(
+            @RequestParam String estado,
+            @RequestParam int ano,
+            @RequestParam int mes) {
+        return service.listarHistoricoInpe(estado, ano, mes);
+    }
+
     @GetMapping("/{id}")
     public RegistroIncendioDTO buscarPorId(@PathVariable Long id) {
         return service.buscarPorId(id);
