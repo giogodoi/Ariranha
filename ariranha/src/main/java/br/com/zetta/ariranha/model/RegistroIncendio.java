@@ -13,8 +13,9 @@ public class RegistroIncendio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "autor_registro")
-    private String autor;
+    @ManyToOne
+    @JoinColumn(name = "autor_registro")
+    private Usuario autor;
 
     private String descricao;
 
