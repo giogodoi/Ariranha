@@ -1,4 +1,5 @@
 package br.com.zetta.ariranha.controller;
+import br.com.zetta.ariranha.dto.UsuarioDTO;
 import br.com.zetta.ariranha.model.Usuario;
 import br.com.zetta.ariranha.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public List<Usuario> listar() {
+    public List<UsuarioDTO> listar() { 
         return service.listarTodos();
     }
 }

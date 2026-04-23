@@ -1,6 +1,8 @@
 package br.com.zetta.ariranha.service;
 import br.com.zetta.ariranha.model.Usuario;
 import br.com.zetta.ariranha.repository.UsuarioRepository;
+import br.com.zetta.ariranha.dto.UsuarioDTO;
+import java.util.stream.Collectors;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,8 +65,20 @@ public class UsuarioService {
                 .compact();
     }
 
-    public List<Usuario> listarTodos() {
-        return repository.findAll();
+    private UsuarioDTO converterParaDTO(Usuario usuario) {
+        UsuarioDTO dto = new UsuarioDTO();
+            dto.setId(usuario.getId());
+            dto.setNomeCompleto(usuario.getNomeCompleto());
+            dto.setEmail(usuario.getEmail());
+            dto.setCpf(usuario.getCpf());
+            dto.setTelefone(usuario.getTelefone());
+        return dto;
+    }
+
+    public List<UsuarioDTO> listarTodos() {
+    return repository.findAll().stream()
+            .map(this::converterParaDTO)
+            .collect(Collectors.toList());
     }
 
     public Usuario buscarPorId(Long id) {
