@@ -26,6 +26,9 @@ public class UsuarioService {
     @Value("${ariranha.jwt.secret}")
     private String jwtSecret;
 
+    @Value("${ariranha.jwt.expiration}")
+    private Long jwtExpiration;
+
     private Key getChave() {
         return Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
     }
@@ -54,13 +57,12 @@ public class UsuarioService {
     }
 
     private String gerarToken(Usuario usuario) {
-        long umDia = 86400000;
         return Jwts.builder()
                 .setSubject(usuario.getCpf())
                 .claim("nome", usuario.getNomeCompleto()) 
                 .claim("id", usuario.getId())
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + umDia))
+                .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))
                 .signWith(getChave())
                 .compact();
     }

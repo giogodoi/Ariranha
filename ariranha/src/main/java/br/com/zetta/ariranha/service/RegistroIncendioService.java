@@ -50,9 +50,14 @@ public class RegistroIncendioService {
     private RegistroIncendioDTO converterParaDTO(RegistroIncendio model) {
         RegistroIncendioDTO dto = new RegistroIncendioDTO();
         dto.setId(model.getId());
-        dto.setAutor(model.getAutor().getNomeCompleto());
         dto.setDescricao(model.getDescricao());
         dto.setDataRegistro(model.getDataRegistro());
+
+        if (model.getAutor() != null) {
+            dto.setAutor(model.getAutor().getNomeCompleto());
+        } else {
+            dto.setAutor("Usuário Desconhecido");
+        }
         
         if (model.getGeom() != null) {
             dto.setLongitude(model.getGeom().getX());
