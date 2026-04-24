@@ -23,7 +23,6 @@ public class RegistroIncendioService {
     }
 
     public List<RegistroIncendioDTO> listarTodos() {
-        // Mantemos a lógica atual: Banco local + 48h do INPE
         List<RegistroIncendioDTO> todosRegistros = repository.findAll().stream()
                 .map(this::converterParaDTO)
                 .collect(Collectors.toCollection(ArrayList::new));
@@ -51,7 +50,7 @@ public class RegistroIncendioService {
     private RegistroIncendioDTO converterParaDTO(RegistroIncendio model) {
         RegistroIncendioDTO dto = new RegistroIncendioDTO();
         dto.setId(model.getId());
-        dto.setAutor(model.getAutor());
+        dto.setAutor(model.getAutor().getNomeCompleto());
         dto.setDescricao(model.getDescricao());
         dto.setDataRegistro(model.getDataRegistro());
         
