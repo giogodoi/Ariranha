@@ -5,10 +5,6 @@ venv/
 .env
 *.log
 
-models/*.joblib
-models/*.json
-models/cell_stats.parquet
-
 data/*.parquet
 data/*.csv
 
