@@ -22,6 +22,7 @@ import joblib
 import pandas as pd
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
@@ -39,6 +40,13 @@ from src.features import cell_id_from_coords
 
 app = FastAPI(title="Ariranha DS API", description="Sidecar de predição de risco de incêndio e severidade")
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], # Permite que o React acesse de qualquer porta
+    allow_credentials=True,
+    allow_methods=["*"], # Permite GET, POST, OPTIONS, etc
+    allow_headers=["*"], # Permite todos os cabeçalhos
+)
 # ── Carregamento eager dos artefatos ─────────────────────────────────────────
 try:
     modelo = joblib.load(MODELO_OCORRENCIA_PATH)
