@@ -31,14 +31,11 @@ public class UsuarioController {
 
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(@RequestBody Usuario loginData) {
-        // 1. Gera o token usando o service
         String token = service.autenticar(loginData.getCpf(), loginData.getSenha());
         
-        // 2. Cria um mapa (que o Spring converte automaticamente para JSON)
         Map<String, String> response = new HashMap<>();
         response.put("token", token);
         
-        // 3. Retorna HTTP 200 OK com o JSON { "token": "seu_jwt_aqui" }
         return ResponseEntity.ok(response);
     }
 
