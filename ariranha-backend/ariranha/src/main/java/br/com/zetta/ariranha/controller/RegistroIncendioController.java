@@ -1,7 +1,8 @@
 package br.com.zetta.ariranha.controller;
 
 import br.com.zetta.ariranha.dto.RegistroIncendioDTO;
-import br.com.zetta.ariranha.model.RegistroIncendio;
+import br.com.zetta.ariranha.exception.EntidadeNaoEncontradaException;
+//import br.com.zetta.ariranha.model.RegistroIncendio;
 import br.com.zetta.ariranha.service.RegistroIncendioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -9,6 +10,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.context.SecurityContextHolder;
+import br.com.zetta.ariranha.model.Usuario;
+import br.com.zetta.ariranha.repository.UsuarioRepository;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -16,6 +21,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/registros")
 public class RegistroIncendioController {
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     @Autowired
     private RegistroIncendioService service;
@@ -47,13 +55,22 @@ public class RegistroIncendioController {
     }
 
     @PostMapping
-    public ResponseEntity<RegistroIncendioDTO> criar(@RequestBody RegistroIncendio registro) {
-        return ResponseEntity.ok(service.salvar(registro));
+    public ResponseEntity<RegistroIncendioDTO> criar(@Valid @RequestBody RegistroIncendioDTO dto) {
+        String cpfLogado = SecurityContextHolder.getContext().getAuthentication().getName();
+        
+        Usuario autor = usuarioRepository.findByCpf(cpfLogado)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Autor do registro não identificado no sistema."));
+
+                RegistroIncendioDTO novoRegistro = service.salvarComDados(dto, autor);
+        return ResponseEntity.status(201).body(novoRegistro);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RegistroIncendioDTO> atualizar(@PathVariable Long id, @RequestBody RegistroIncendio dadosNovos) {
-        dadosNovos.setId(id);
-        return ResponseEntity.ok(service.salvar(dadosNovos));
+    public ResponseEntity<RegistroIncendioDTO> atualizar(@PathVariable Long id, @Valid @RequestBody RegistroIncendioDTO dto) {
+        String cpfLogado = SecurityContextHolder.getContext().getAuthentication().getName();
+        Usuario autor = usuarioRepository.findByCpf(cpfLogado)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        return ResponseEntity.ok(service.atualizarComDados(id, dto, autor));
     }
 }

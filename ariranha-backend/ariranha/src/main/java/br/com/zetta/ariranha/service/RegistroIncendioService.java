@@ -1,6 +1,7 @@
 package br.com.zetta.ariranha.service;
 
 import br.com.zetta.ariranha.dto.RegistroIncendioDTO;
+import br.com.zetta.ariranha.exception.EntidadeNaoEncontradaException;
 import br.com.zetta.ariranha.model.RegistroIncendio;
 import br.com.zetta.ariranha.repository.RegistroIncendioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,10 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Point;
+import br.com.zetta.ariranha.model.Usuario;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,14 +55,9 @@ public class RegistroIncendioService {
         return new PageImpl<>(listaFinal, pageable, pageLocal.getTotalElements());
     }
 
-    public RegistroIncendioDTO salvar(RegistroIncendio registro) {
-        RegistroIncendio salvo = repository.save(registro);
-        return converterParaDTO(salvo);
-    }
-
     public RegistroIncendioDTO buscarPorId(Long id) {
         RegistroIncendio registro = repository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Registro #" + id + " não encontrado"));
+            .orElseThrow(() -> new EntidadeNaoEncontradaException("Registro #" + id + " não encontrado"));
         return converterParaDTO(registro);
     }
 
@@ -84,5 +84,39 @@ public class RegistroIncendioService {
             dto.setLongitude(0.0);
         }
         return dto;
+    }
+
+    public RegistroIncendioDTO salvarComDados(RegistroIncendioDTO dto, Usuario autor) {
+        RegistroIncendio registro = new RegistroIncendio();
+        registro.setAutor(autor);
+        registro.setDescricao(dto.getDescricao());
+
+        if (dto.getLatitude() != null && dto.getLongitude() != null) {
+            GeometryFactory gf = new GeometryFactory();
+            Point ponto = gf.createPoint(new Coordinate(dto.getLongitude(), dto.getLatitude()));
+            ponto.setSRID(4326); 
+            registro.setGeom(ponto);
+        }
+
+        RegistroIncendio salvo = repository.save(registro);
+        return converterParaDTO(salvo);
+    }
+
+    public RegistroIncendioDTO atualizarComDados(Long id, RegistroIncendioDTO dto, Usuario autor) {
+        repository.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException("Não é possível atualizar: Registro #" + id + " não existe"));
+        
+        RegistroIncendio registro = new RegistroIncendio();
+        registro.setId(id); 
+        registro.setAutor(autor);
+        registro.setDescricao(dto.getDescricao());
+
+        if (dto.getLatitude() != null && dto.getLongitude() != null) {
+            GeometryFactory gf = new GeometryFactory();
+            Point ponto = gf.createPoint(new Coordinate(dto.getLongitude(), dto.getLatitude()));
+            ponto.setSRID(4326);
+            registro.setGeom(ponto);
+        }
+
+        return converterParaDTO(repository.save(registro));
     }
 }

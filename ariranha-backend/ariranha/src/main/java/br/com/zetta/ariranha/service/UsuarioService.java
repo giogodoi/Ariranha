@@ -2,6 +2,8 @@ package br.com.zetta.ariranha.service;
 import br.com.zetta.ariranha.model.Usuario;
 import br.com.zetta.ariranha.repository.UsuarioRepository;
 import br.com.zetta.ariranha.dto.UsuarioDTO;
+import br.com.zetta.ariranha.exception.NegocioException;
+
 import java.util.stream.Collectors;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -36,7 +38,7 @@ public class UsuarioService {
     public Usuario salvar(Usuario usuario) {
 
         if (repository.existsByCpf(usuario.getCpf())) {
-            throw new RuntimeException("Este CPF já está cadastrado no sistema.");
+            throw new NegocioException("Este CPF já está cadastrado no sistema.");
         }
 
         String senhaCodificada = passwordEncoder.encode(usuario.getSenha());
@@ -47,12 +49,12 @@ public class UsuarioService {
 
     public String autenticar(String cpf, String senhaPura) {
         Usuario usuario = repository.findByCpf(cpf)
-                .orElseThrow(() -> new RuntimeException("CPF ou senha incorretos."));
+                .orElseThrow(() -> new NegocioException("Usuário não encontrado com o CPF informado."));
 
         if (passwordEncoder.matches(senhaPura, usuario.getSenha())) {
             return gerarToken(usuario);
         } else {
-            throw new RuntimeException("CPF ou senha incorretos.");
+            throw new NegocioException("Senha incorreta. Verifique seus dados.");
         }
     }
 
