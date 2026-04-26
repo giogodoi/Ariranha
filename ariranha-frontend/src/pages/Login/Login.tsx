@@ -38,7 +38,7 @@ export default function Login() {
       <div className="login-banner">
         <div className="banner-content">
           <img 
-            src="./public/logo-ariranha.png" 
+            src="/logo-ariranha.png" 
             alt="Mascote Ariranha Bombeiro" 
             className="mascote-img"
           />
