@@ -1,0 +1,162 @@
+@import '../styles/variables';
+
+.navbar-container {
+  background-color: $card-bg;
+  border-bottom: 1px solid $border-color;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: $shadow-sm;
+}
+
+.navbar-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  height: 80px; 
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* LOGO E NOME */
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+
+  .brand-logo-img {
+    height: 35px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .brand-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: $primary-color;
+    letter-spacing: 0.5px;
+    
+    @media (max-width: 600px) {
+      display: none; 
+    }
+  }
+}
+
+/* LINKS DE NAVEGAÇÃO (CENTRALIZADOS) */
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  flex: 2;
+  justify-content: center;
+
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    color: $text-muted;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    padding: 8px 12px;
+    border-radius: $border-radius-md;
+    position: relative;
+
+    svg {
+      transition: transform 0.2s ease;
+    }
+
+    span {
+      white-space: nowrap;
+    }
+
+    &:hover {
+      color: $primary-color;
+      background-color: rgba($primary-color, 0.05);
+      
+      svg {
+        transform: translateY(-2px);
+      }
+    }
+
+    /* ESTADO ATIVO (IGUAL AO FIGMA) */
+    &.active {
+      color: $orange-color; 
+      font-weight: 600;
+
+      svg {
+        color: $orange-color;
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -12px; 
+        left: 0;
+        right: 0;
+        height: 3px;
+        background-color: $orange-color;
+        border-radius: 3px 3px 0 0;
+      }
+    }
+  }
+}
+
+/* AÇÕES (BOTÃO SAIR) */
+.navbar-actions {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+
+  .btn-logout {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    color: $text-muted;
+    font-size: 0.875rem;
+    font-weight: 600;
+    border-radius: $border-radius-md;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+
+    &:hover {
+      color: $danger-color;
+      background-color: rgba($danger-color, 0.05);
+      border-color: rgba($danger-color, 0.1);
+    }
+
+    span {
+      @media (max-width: 1024px) {
+        display: none; 
+      }
+    }
+  }
+}
+
+/* RESPONSIVIDADE PARA CELULARES */
+@media (max-width: 768px) {
+  .navbar-content {
+    height: 70px;
+    padding: 0 1rem;
+  }
+  
+  .navbar-links {
+    gap: 0.5rem;
+    
+    .nav-item {
+      padding: 6px;
+      span {
+        display: none;
+      }
+      
+      &.active::after {
+        bottom: -8px;
+      }
+    }
+  }
+}

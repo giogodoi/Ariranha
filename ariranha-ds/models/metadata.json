@@ -1,0 +1,70 @@
+{
+  "treinado_em": "2026-04-24T15:48:54.788741+00:00",
+  "modelos": [
+    "XGBClassifier",
+    "XGBRegressor"
+  ],
+  "predicoes": [
+    "ocorrencia_24h",
+    "severidade_frp"
+  ],
+  "horizonte": "24h",
+  "grid_resolucao_graus": 0.25,
+  "features": [
+    "lat_grid",
+    "lon_grid",
+    "media_risco",
+    "media_dias_seco",
+    "media_precip",
+    "media_frp_historico",
+    "n_historico",
+    "bioma_enc",
+    "mes",
+    "dia_do_ano"
+  ],
+  "hiperparametros_ocorrencia": {
+    "n_estimators": 400,
+    "max_depth": 7,
+    "learning_rate": 0.05,
+    "subsample": 0.85,
+    "colsample_bytree": 0.85,
+    "eval_metric": "logloss",
+    "random_state": 42
+  },
+  "hiperparametros_severidade": {
+    "n_estimators": 300,
+    "max_depth": 6,
+    "learning_rate": 0.05,
+    "subsample": 0.8,
+    "colsample_bytree": 0.8,
+    "eval_metric": "rmse",
+    "random_state": 42
+  },
+  "neg_per_pos": 5,
+  "metricas_ocorrencia": {
+    "auc_roc": 0.8637183457520918,
+    "average_precision": 0.603209867968514,
+    "accuracy": 0.771520206405644,
+    "n_treino": 6269594,
+    "n_teste": 1567399,
+    "n_positivos_treino": 1118695,
+    "n_negativos_treino": 5150899
+  },
+  "metricas_severidade": {
+    "rmse": 90.70907470173394,
+    "mae": 34.19933087405037,
+    "r2": 0.0700533752427912,
+    "n_treino": 1118695,
+    "n_teste": 279674
+  },
+  "dataset": {
+    "linhas_origem": 9999358,
+    "periodo_inicio": "2020-01-01 00:45:28",
+    "periodo_fim": "2024-07-21 04:25:59",
+    "n_celulas_modeladas": 10619
+  },
+  "limitacoes": [
+    "Features são agregados históricos estáticos da célula — modelo aprende propensão geográfica.",
+    "Cobertura limitada às células com ao menos um foco no período de treino."
+  ]
+}

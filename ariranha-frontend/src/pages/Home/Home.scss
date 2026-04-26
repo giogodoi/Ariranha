@@ -1,0 +1,222 @@
+@import '../../styles/variables';
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* 1. CABEÇALHO */
+.welcome-header {
+  h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: $text-main;
+    margin-bottom: 0.5rem;
+  }
+  p {
+    color: $text-muted;
+    font-size: 1rem;
+  }
+}
+
+/* 2. BANNER DO AVE */
+.ave-banner {
+  background-color: $card-bg;
+  border: 1px solid $border-color;
+  border-radius: $border-radius-xl;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  box-shadow: $shadow-md;
+  position: relative;
+  overflow: hidden;
+
+  .ave-mascot {
+    flex-shrink: 0;
+    img {
+      height: 140px;
+      width: auto;
+      object-fit: contain;
+    }
+  }
+
+  .ave-content {
+    h2 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: $primary-color;
+      margin-bottom: 1rem;
+    }
+    p {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: $text-main;
+      margin-bottom: 1.5rem;
+      max-width: 800px;
+    }
+
+    .btn-ave {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background-color: $orange-color;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 999px; // Botão pílula
+      font-size: 0.85rem;
+      font-weight: 600;
+      
+      &:hover {
+        background-color: darken($orange-color, 5%);
+        transform: translateY(-1px);
+        box-shadow: $shadow-sm;
+      }
+    }
+  }
+}
+
+/* 3. SEÇÃO DE SERVIÇOS */
+.services-section {
+  .services-header {
+    margin-bottom: 1.5rem;
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+    p {
+      color: $text-muted;
+      font-size: 0.9rem;
+    }
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .service-card {
+    background-color: $card-bg;
+    padding: 2.5rem 2rem;
+    border-radius: $border-radius-lg;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    box-shadow: $shadow-sm;
+
+    h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: $text-main;
+    }
+    p {
+      color: $text-muted;
+      font-size: 0.85rem;
+    }
+
+    &.border-green {
+      border-color: rgba($success-color, 0.3);
+      &:hover {
+        border-color: $success-color;
+        background-color: rgba($success-color, 0.02);
+        transform: translateY(-4px);
+      }
+    }
+
+    &.border-orange {
+      border-color: rgba($orange-color, 0.3);
+      &:hover {
+        border-color: $orange-color;
+        background-color: rgba($orange-color, 0.02);
+        transform: translateY(-4px);
+      }
+    }
+  }
+}
+
+/* 4. ALERTAS RECENTES */
+.alerts-section {
+  background-color: $card-bg;
+  border-radius: $border-radius-lg;
+  border: 1px solid $border-color;
+  padding: 1.5rem;
+  box-shadow: $shadow-sm;
+
+  .alerts-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid $border-color;
+
+    h2 {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+  }
+
+  .alerts-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .alert-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid rgba($border-color, 0.5);
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .alert-info {
+      h4 {
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+      }
+      p {
+        font-size: 0.85rem;
+        color: $text-muted;
+      }
+    }
+
+    .alert-indicator-wrapper {
+      .indicator-dot {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        box-shadow: 0 0 0 4px rgba($border-color, 0.3);
+
+        &.critico { background-color: $danger-color; }
+        &.alto { background-color: $orange-color; }
+        &.medio { background-color: $warning-color; }
+      }
+    }
+  }
+}
+
+/* Animação suave de entrada */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .ave-banner {
+    flex-direction: column;
+    text-align: center;
+  }
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+}
