@@ -1,4 +1,4 @@
-import { useState, FormEvent, useEffect } from "react";
+import { useState, type FormEvent, useEffect } from "react";
 import { apiDS, type PrevisaoRequest, type PrevisaoResponse } from "../../services/api";
 import { MapPin, Target, AlertTriangle, ShieldCheck, Flame, Search } from "lucide-react";
 import { MapContainer, TileLayer, CircleMarker, Tooltip, useMap } from "react-leaflet";

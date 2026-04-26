@@ -1,4 +1,4 @@
-import { useEffect, useState, FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { Plus, MapPin, Edit2, AlertCircle, ChevronLeft, ChevronRight, X } from "lucide-react";
 import { api, type RegistroIncendioDTO, type NovoRegistro } from "../../services/api";
 import { useAuth } from "../../context/AuthContext";

@@ -56,7 +56,7 @@ export type RegistroIncendioDTO = {
 };
 
 export type NovoRegistro = {
-  autor: string;
+  autor?: string; // o autor passa a ser opcional, uma vez que o backend faz o preenchimento
   descricao: string;
   dataRegistro: string;
   latitude: number;

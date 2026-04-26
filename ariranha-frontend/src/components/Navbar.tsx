@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { Home, List, CloudRain, User, Settings, LogOut } from "lucide-react";
+import { Home, List, CloudRain, User, LogOut } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import "./Navbar.scss"
 
