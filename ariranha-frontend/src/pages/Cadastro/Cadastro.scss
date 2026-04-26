@@ -1,0 +1,108 @@
+@use "sass:color";
+@import '../../styles/variables';
+
+.cadastro-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: $bg-color;
+}
+
+.cadastro-banner {
+  flex: 1;
+  display: none;
+  background-color: #f0fdfa;
+  border-right: 1px solid $border-color;
+  
+  @media (min-width: 900px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .banner-content {
+    text-align: center;
+    .mascote-img { height: 300px; margin-bottom: 2rem; }
+    .brand-text h2 { color: $primary-color; letter-spacing: 2px; }
+  }
+}
+
+.cadastro-form-section {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+
+  .form-wrapper { width: 100%; max-width: 450px; }
+
+  .btn-back {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: $text-muted;
+    font-size: 0.875rem;
+    margin-bottom: 2rem;
+    &:hover { color: $primary-color; }
+  }
+
+  .form-header { margin-bottom: 2rem; h1 { font-size: 2rem; } }
+
+  .cadastro-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+
+    .input-row {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 1rem;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      label { font-size: 0.85rem; font-weight: 600; }
+      input, select {
+        height: 45px;
+        padding: 0 1rem;
+        border: 1px solid $border-color;
+        border-radius: $border-radius-md;
+        background-color: #f9fafb;
+        &:focus { border-color: $primary-color; outline: none; }
+      }
+    }
+
+    .password-input-wrapper {
+      position: relative;
+      .btn-toggle-password {
+        position: absolute;
+        right: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: $text-muted;
+      }
+    }
+
+    .btn-primary-cadastro {
+      height: 50px;
+      background-color: $primary-color;
+      color: white;
+      font-weight: 600;
+      border-radius: $border-radius-md;
+      margin-top: 1rem;
+      &:hover { background-color: $primary-hover; }
+    }
+  }
+
+  .alert-success {
+    background-color: rgba($success-color, 0.1);
+    color: color.adjust($success-color, $lightness: -15%);
+    
+    padding: 1rem;
+    border-radius: $border-radius-md;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+  }
+}
